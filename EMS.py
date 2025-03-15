@@ -1,64 +1,84 @@
 from tkinter import *
 import tkinter as tk
 from tkinter import ttk
-from database import DatabaseManager
+from db_interface import IDatabase
 from PIL import Image, ImageTk
 from tkinter import messagebox
 
-
-
-
-
 class AppWindow():
 
-    def __init__(self,root):
+    def __init__(self,root,db:IDatabase):
         self.root=root
         self.root.geometry("1000x600")
         self.root.resizable(False,False)
         self.root.title("Employee Management System ")
+        
+        self.root.configure(background=("#252d56"))
+        self.db= db
+        self.show_background()
+        self.manage_frame()
+        self.label_id()
+        self.label_name()
+        self.label_gender()
+        self.label_position()
+        self.label_salary()
+        self.buttns_frame()
+        self.search_frame()
+        
+
+
+    def show_background (self):# use to show photo (background)
+
         image= Image.open('./images/ems.jpg')
         image = image.resize((1000, 150))
         self.photo = ImageTk.PhotoImage(image)
-        self.root.configure(background=("#252d56"))
-        self.db= DatabaseManager()
-
-
-
-# use to show photo (background)
         self.image_label = Label(self.root, image=self.photo)
         self.image_label.place(x=0, y=0)
-# use to create manage frame
+
+    def manage_frame(self):# use to create manage frame
+
         self.manage_frame = Frame(self.root,bg="#252d56")
         self.manage_frame.place(x=0,y=175,width=350,height=335)
-    # use to create label id and entry 
+
+    def label_id(self): # use to create label id and entry 
+
         self.id_label = Label (self.manage_frame,text="ID",font=("Arial",18,"bold"),bg="#252d56",fg="white")
         self.id_label.place(x=30,y=10)
         self.id_entry= Entry(self.manage_frame,justify="center",relief="sunken",font=("Arial",12))
         self.id_entry.place(x=155,y=15,width=140)
-    # use to create label Name and entry 
+
+    def label_name(self):# use to create label Name and entry 
+
         self.name_label= Label(self.manage_frame,text="Name",font=("Arial",18,"bold"),bg="#252d56",fg="white")
         self.name_label.place(x=30,y=70)
         self.name_entry = Entry(self.manage_frame,relief="sunken",font=("Arial",12),justify="center")
         self.name_entry.place(x=155,y=75,width=140)
-    # use to create label Position and entry 
+
+    def label_position(self):# use to create label Position and entry 
+
         self.position_label= Label(self.manage_frame,text="Position",font=("Arial",18,"bold"),bg="#252d56",fg="white")
         self.position_label.place(x=30,y=130)
         self.combo_position = ttk.Combobox(self.manage_frame,justify="center")
         self.combo_position['value']=['GM','Secretariat','Marketing Manager','Marketing','Software Engineer','Sales','Customer Services','Quality Control','Lawyer']
         self.combo_position.place(x=155,y=135,width=140)
-    # use to create label Gender and entry 
+
+    def label_gender(self):# use to create label Gender and entry 
+
         self.gender_label = Label(self.manage_frame, text="Gender", font=("Arial", 18, "bold"), bg="#252d56", fg="white")
         self.gender_label.place(x=5, y=190,width=140)
         self.combo_gender = ttk.Combobox(self.manage_frame,justify="center")
         self.combo_gender['value'] = ['MALE', 'FEMALE']
         self.combo_gender.place(x=155, y=195)
-    # use to create label Salary and entry 
+
+    def label_salary(self): # use to create label Salary and entry 
+
         self.salary_label= Label(self.manage_frame,text="Salary",font=("Arial",18,"bold"),bg="#252d56",fg="white")
         self.salary_label.place(x=30,y=250)
         self.salary_entry = Entry(self.manage_frame,relief="sunken",font=("Arial",12),justify="center")
         self.salary_entry.place(x=155,y=255,width=140)
-#----------------------------------------------------------------------------------------------------------------------------------------
-# use to button frame
+
+    def buttns_frame(self):# use to button frame
+
         self.button_frame = Frame(self.root,bg="#252d56")
         self.button_frame.place(x=0,y=485,width=1000,height=115)
         # use to create button New employee 
@@ -76,8 +96,9 @@ class AppWindow():
         # # use to create button Delete 
         self.del_all_btn = Button(self.button_frame,bg="#5dade2",text="Delete ALL",font=("Arial",12,"bold"),justify="center",fg="white",command=self.delete_all_employees)
         self.del_all_btn.place(x=800,y=55,width=180)
-#--------------------------------------------------------------------------------------------------------------------------------------------
-# use to create serach-frame 
+
+    def search_frame(self):# use to create serach-frame 
+
         self.search_frame = Frame(self.root,bg="#d8d8cb")
         self.search_frame.place(x=350,y=165,width=640,height=60)
         # use to create label search and combobox
@@ -94,8 +115,6 @@ class AppWindow():
         self.show_btn = Button(self.search_frame,bg="#0b1450",text="Show All",font=("Arial",12,"bold"),justify="center",fg="white",command=self.show_all)
         self.show_btn.place(x=450,y=15,width=100,height=30)
 
-
-#----------------------------------------------------------------------------------------------------------------------------------------------
 # use to create Details Frame 
         self.details_frame = Frame(self.root, background="#34495e")
         self.details_frame.place(x=350, y=225, width=640, height=265)
@@ -155,7 +174,7 @@ class AppWindow():
         self.combo_position.set("")
         self.combo_gender.set("")
         self.salary_entry.delete(0,END)
-        
+
 #---------------------------------------------------------------------------------------------------------------------
     def add_employee(self): #use to add new employee this function 
         
@@ -283,4 +302,3 @@ class AppWindow():
         self.fetch_data()
         self.combo_search.set("")
         self.search_entry.delete(0,END)
-        

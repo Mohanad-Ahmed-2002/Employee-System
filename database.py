@@ -1,7 +1,8 @@
 import mysql.connector
 from mysql.connector import Error
+from db_interface import IDatabase
 
-class DatabaseManager():
+class DatabaseManager(IDatabase):
 
     def __init__(self,host='localhost',user='root',password='',database='ems_db'):
         self.host=host
