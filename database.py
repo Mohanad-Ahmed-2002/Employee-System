@@ -3,7 +3,7 @@ from mysql.connector import Error
 
 class DatabaseManager():
 
-    def __init__(self,host='localhost',user='Mohanad',password='CS312002',database='EMS'):
+    def __init__(self,host='localhost',user='root',password='',database='ems_db'):
         self.host=host
         self.user=user
         self.password=password
@@ -19,7 +19,8 @@ class DatabaseManager():
                 host=self.host,
                 user=self.user,
                 password=self.password,
-                database=self.database
+                database=self.database,
+                port=3307
             )
                 self.cursor = self.conn.cursor()
                 print("Connected to MySQL database")
